@@ -102,6 +102,8 @@ void chacha20Cipher(byte * key, byte * nonce, byte * data, size_t len) {
         for(uint32_t i = j*64; i < len; i++) {
             data[i] ^= keyStream[i % 64];
         }
+        
+        free(keyStream);
     }
 }
 
