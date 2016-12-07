@@ -1,0 +1,12 @@
+language: python
+python:
+  - 2.7
+before_install:
+  - sudo apt-get install python-dev
+install:
+  - pip install pep8
+before_script:
+  - pep8 --max-line-length=200 --ignore=E402 */*.py
+  - pip install -e .
+script:
+  - python -m chacha20poly1305.test
