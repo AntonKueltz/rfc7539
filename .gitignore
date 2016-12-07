@@ -2,7 +2,8 @@ _chacha20
 .old
 *.o
 *.so
-test
+test*
 *.egg-info
 build
 *.pyc
+Makefile

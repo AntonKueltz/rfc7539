@@ -7,6 +7,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <Python.h>
+
 // #include "prtypes.h"
 #include "_chacha20.h"
 
@@ -104,4 +106,38 @@ void ChaCha20XOR(unsigned char *out, const unsigned char *in, unsigned int inLen
 	        out[i] = in[i] ^ block[i];
 	    }
     }
+}
+
+
+/******************************************************************************
+ PYTHON BINDINGS
+ ******************************************************************************/
+static PyObject * _chacha20_cipher(PyObject *self, PyObject *args) {
+    PyByteArrayObject * keyBytes, * nonceBytes, * inBytes;
+    size_t msgLen;
+    uint64_t counter;
+
+    if (!PyArg_ParseTuple(args, "OOOnn", &keyBytes, &nonceBytes, &inBytes, &msgLen, &counter)) {
+        return NULL;
+    }
+
+    char * key = PyByteArray_AsString((PyObject *) keyBytes);
+    char * nonce = PyByteArray_AsString((PyObject *) nonceBytes);
+    char * in = PyByteArray_AsString((PyObject *) inBytes);
+
+    unsigned char out[msgLen];
+
+    ChaCha20XOR(out, (unsigned char *)in, msgLen, (unsigned char *)key, (unsigned char *)nonce,
+        counter);
+
+    return Py_BuildValue("s#", out, msgLen);
+}
+
+static PyMethodDef _chacha20__methods__[] = {
+    {"cipher", _chacha20_cipher, METH_VARARGS, "Encrypt / Decrypt data via"},
+    {NULL, NULL, 0, NULL}        /* Sentinel */
+};
+
+PyMODINIT_FUNC init_chacha20(void) {
+    Py_InitModule("_chacha20", _chacha20__methods__);
 }

@@ -15,6 +15,13 @@ class TestCommand(Command):
         from subprocess import call
         call(['python', '-m', 'chacha20poly1305.test'])
 
+_chacha20 = Extension(
+    'chacha20poly1305._chacha20',
+    include_dirs=['src/'],
+    sources=['src/_chacha20.c'],
+    extra_compile_args=['-std=c99', '-O2']
+)
+
 _poly1305 = Extension(
     'chacha20poly1305._poly1305',
     include_dirs=['src/'],
@@ -33,7 +40,7 @@ setup(
     # long_description=''.join(open('README.rst', 'r').readlines()),
     # url='https://github.com/AntonKueltz/',
     packages=['chacha20poly1305'],
-    ext_modules=[_poly1305],
+    ext_modules=[_chacha20, _poly1305],
     cmdclass={'test': TestCommand},
     classifiers=[
         'Development Status :: 3 - Alpha',
