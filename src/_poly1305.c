@@ -9,6 +9,8 @@
 #include <string.h>
 #include <stdint.h>
 
+#include <Python.h>
+
 #include "_poly1305.h"
 
 #if defined(NSS_X86) || defined(NSS_X64)
@@ -251,4 +253,39 @@ void Poly1305Finish(poly1305_state *statep, unsigned char mac[16]) {
 	U32TO8_LE(&mac[ 4], f1); f2 += (f1 >> 32);
 	U32TO8_LE(&mac[ 8], f2); f3 += (f2 >> 32);
 	U32TO8_LE(&mac[12], f3);
+}
+
+
+/******************************************************************************
+ PYTHON BINDINGS
+ ******************************************************************************/
+static PyObject * _poly1305_tag(PyObject *self, PyObject *args) {
+    PyByteArrayObject * keyBytes, * msgBytes;
+    size_t msgLen;
+
+    if (!PyArg_ParseTuple(args, "OOn", &keyBytes, &msgBytes, &msgLen)) {
+        return NULL;
+    }
+
+    char * key = PyByteArray_AsString((PyObject *) keyBytes);
+    char * msg = PyByteArray_AsString((PyObject *) msgBytes);
+
+    poly1305_state state;
+    const unsigned macSize = 16;
+    unsigned char mac[macSize];
+
+    Poly1305Init(&state, (unsigned char *)key);
+    Poly1305Update(&state, (unsigned char *)msg, msgLen);
+    Poly1305Finish(&state, mac);
+
+    return Py_BuildValue("s#", mac, macSize);
+}
+
+static PyMethodDef _poly1305__methods__[] = {
+    {"tag", _poly1305_tag, METH_VARARGS, "Tag a message via Poly1305."},
+    {NULL, NULL, 0, NULL}        /* Sentinel */
+};
+
+PyMODINIT_FUNC init_poly1305(void) {
+    Py_InitModule("_poly1305", _poly1305__methods__);
 }

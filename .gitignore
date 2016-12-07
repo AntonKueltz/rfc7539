@@ -1,4 +1,8 @@
 _chacha20
 .old
 *.o
+*.so
 test
+*.egg-info
+build
+*.pyc
