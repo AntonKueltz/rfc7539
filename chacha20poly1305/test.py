@@ -110,7 +110,6 @@ class TestAEAD(unittest.TestCase):
         result = aead.encrypt_and_tag(key, nonce, inp, adata)
         self.assertTrue(result == expected)
 
-
     def test_verify_and_decrypt2(self):
         key = unhexlify('e3c37ba4984da482b4f978f314b149857f4f3027470bced382ad92889ed4fcb6')
         inp = unhexlify('46d4b8cfb0323dcad49cafe58ad009602fe190ebb314ddab20e541fdb7b7541c')
