@@ -1,6 +1,6 @@
 from hmac import compare_digest  # constant time comparison
 
-from cipher import encrypt, decrypt
+from cipher import encrypt
 from mac import tag
 
 
