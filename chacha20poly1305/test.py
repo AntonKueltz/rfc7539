@@ -1,7 +1,7 @@
 from binascii import hexlify, unhexlify
 import unittest
 
-from chacha20poly1305 import cipher, mac
+from chacha20poly1305 import aead, cipher, mac
 
 
 class TestChaCha20(unittest.TestCase):
@@ -96,6 +96,30 @@ class TestPoly1305(unittest.TestCase):
 
         tag = mac.tag(key, inp)
         self.assertTrue(tag == expected)
+
+
+class TestAEAD(unittest.TestCase):
+    # test from https://tools.ietf.org/html/draft-agl-tls-chacha20poly1305-00
+    def test_encrypt_and_tag1(self):
+        key = unhexlify('e3c37ba4984da482b4f978f314b149857f4f3027470bced382ad92889ed4fcb6')
+        inp = unhexlify('1400000cbe2f24b0b1bf5276fc91a9ad')
+        nonce = unhexlify('0000000000000000')
+        adata = unhexlify('00000000000000001603030010')
+        expected = unhexlify('46d4b8cfb0323dcad49cafe58ad009602fe190ebb314ddab20e541fdb7b7541c')
+
+        result = aead.encrypt_and_tag(key, nonce, inp, adata)
+        self.assertTrue(result == expected)
+
+
+    def test_verify_and_decrypt2(self):
+        key = unhexlify('e3c37ba4984da482b4f978f314b149857f4f3027470bced382ad92889ed4fcb6')
+        inp = unhexlify('46d4b8cfb0323dcad49cafe58ad009602fe190ebb314ddab20e541fdb7b7541c')
+        nonce = unhexlify('0000000000000000')
+        adata = unhexlify('00000000000000001603030010')
+        expected = unhexlify('1400000cbe2f24b0b1bf5276fc91a9ad')
+
+        result = aead.verify_and_decrypt(key, nonce, inp, adata)
+        self.assertTrue(result == expected)
 
 if __name__ == '__main__':
     unittest.main()
