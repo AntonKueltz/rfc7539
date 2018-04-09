@@ -2,7 +2,7 @@ _chacha20
 .old
 *.o
 *.so
-test*
+src/test*
 *.egg-info
 build
 *.pyc

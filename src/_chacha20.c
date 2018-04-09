@@ -58,8 +58,8 @@ static void ChaChaCore(unsigned char output[64], const PRUint32 input[16],
 static const unsigned char sigma[16] = "expand 32-byte k";
 
 void ChaCha20XOR(unsigned char *out, const unsigned char *in, unsigned int inLen,
-		         const unsigned char key[32], const unsigned char nonce[8],
-		         uint64_t counter) {
+		         const unsigned char key[32], const unsigned char nonce[12],
+		         uint32_t counter) {
     unsigned char block[64];
     PRUint32 input[16];
     unsigned int i;
@@ -80,9 +80,9 @@ void ChaCha20XOR(unsigned char *out, const unsigned char *in, unsigned int inLen
     input[3] = U8TO32_LITTLE(sigma + 12);
 
     input[12] = counter;
-    input[13] = counter >> 32;
-    input[14] = U8TO32_LITTLE(nonce + 0);
-    input[15] = U8TO32_LITTLE(nonce + 4);
+    input[13] = U8TO32_LITTLE(nonce + 0);
+    input[14] = U8TO32_LITTLE(nonce + 4);
+    input[15] = U8TO32_LITTLE(nonce + 8);
 
     while (inLen >= 64) {
 	    ChaChaCore(block, input, 20);
@@ -115,9 +115,9 @@ void ChaCha20XOR(unsigned char *out, const unsigned char *in, unsigned int inLen
 static PyObject * _chacha20_cipher(PyObject *self, PyObject *args) {
     PyByteArrayObject * keyBytes, * nonceBytes, * inBytes;
     size_t msgLen;
-    uint64_t counter;
+    uint32_t counter;
 
-    if (!PyArg_ParseTuple(args, "OOOnn", &keyBytes, &nonceBytes, &inBytes, &msgLen, &counter)) {
+    if (!PyArg_ParseTuple(args, "OOOnI", &keyBytes, &nonceBytes, &inBytes, &msgLen, &counter)) {
         return NULL;
     }
 

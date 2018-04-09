@@ -16,7 +16,7 @@
 extern void ChaCha20XOR(unsigned char *out,
 			            const unsigned char *in, unsigned int inLen,
 			            const unsigned char key[32],
-			            const unsigned char nonce[8],
-			            uint64_t counter);
+			            const unsigned char nonce[12],
+			            uint32_t counter);
 
 #endif  /* FREEBL_CHACHA20_H_ */

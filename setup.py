@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension, Command
+from setuptools import setup, Extension, Command
 
 
 class TestCommand(Command):
@@ -14,6 +14,7 @@ class TestCommand(Command):
     def run(self):
         from subprocess import call
         call(['python', '-m', 'chacha20poly1305.test'])
+
 
 _chacha20 = Extension(
     'chacha20poly1305._chacha20',
@@ -31,13 +32,13 @@ _poly1305 = Extension(
 
 setup(
     name='chacha20poly1305',
-    version='0.0.1',
+    version='1.0.1',
     author='Anton Kueltz',
     author_email='kueltz.anton@gmail.com',
     license='GNU General Public License v3 (GPLv3)',
     keywords='poly1305 chacha20 chacha20poly1305',
-    # description='',
-    # long_description=''.join(open('README.rst', 'r').readlines()),
+    description='An AEAD construction per RFC7539',
+    long_description=''.join(open('README.rst', 'r').readlines()),
     # url='https://github.com/AntonKueltz/',
     packages=['chacha20poly1305'],
     ext_modules=[_chacha20, _poly1305],

@@ -4,9 +4,9 @@ from cipher import encrypt
 from mac import tag
 
 
-def len_bytes(n):
-    # truncate to 64 bits
-    n &= 0xffffffffffffffff
+def _len_bytes(n):
+    # truncate to 32 bits
+    n &= 0xffffffff
     slen = ''
 
     while n:
@@ -19,22 +19,29 @@ def len_bytes(n):
     return slen
 
 
-def encrypt_and_tag(key, nonce, data, adata):
+def _tag_data(aad, ciphertext):
+    tag_data = aad + chr(0x00) * (16 - (len(aad) % 16))
+    tag_data += ciphertext + chr(0x00) * (16 - (len(ciphertext) % 16))
+    tag_data += _len_bytes(len(aad))
+    tag_data += _len_bytes(len(ciphertext))
+    return tag_data
+
+
+def encrypt_and_tag(key, nonce, plaintext, aad):
     tag_key = encrypt(key, nonce, chr(0x00) * 64)
     tag_key = tag_key[:32]
-    ciphertext = encrypt(key, nonce, data, counter=1)
-    tag_input = len_bytes(len(adata)) + adata + len_bytes(len(ciphertext)) + ciphertext
-    ciphertext_tag = tag(tag_key, tag_input)
-    return ciphertext + ciphertext_tag
+    ciphertext = encrypt(key, nonce, plaintext, counter=1)
+    tag_input = _tag_data(aad, ciphertext)
+    mac = tag(tag_key, tag_input)
+    return (ciphertext, mac)
 
 
-def verify_and_decrypt(key, nonce, data, adata):
-    ciphertext, ciphertext_tag = data[:-16], data[-16:]
+def verify_and_decrypt(key, nonce, ciphertext, mac, aad):
     tag_key = encrypt(key, nonce, chr(0x00) * 64)
     tag_key = tag_key[:32]
-    tag_input = len_bytes(len(adata)) + adata + len_bytes(len(ciphertext)) + ciphertext
+    tag_input = _tag_data(aad, ciphertext)
 
-    if not compare_digest(tag(tag_key, tag_input), ciphertext_tag):
+    if not compare_digest(tag(tag_key, tag_input), mac):
         print 'Got a bad tag, aborting decryption process'
         return None
 
