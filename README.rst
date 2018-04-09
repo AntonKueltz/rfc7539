@@ -17,7 +17,7 @@ RFC7539_.
 Installation
 ------------
 
-Clone the repo and run :code:`$ pip install -e .`.
+Clone the repo and run either :code:`$ pip install -e .` or :code:`$ python setup.py install`.
 
 Usage
 -----
