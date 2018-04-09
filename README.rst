@@ -30,7 +30,7 @@ You should use the authenticated encryption mode unless you really need to use o
     from os import urandom
 
     key = urandom(32)  # key is 32 bytes
-    nonce = 0x000102030405060708090a0b  # nonce is 12 bytes (DO NOT REUSE A NONCE WITH THE SAME KEY)
+    nonce = 'thisisanonce'  # nonce is 12 bytes (DO NOT REUSE A NONCE WITH THE SAME KEY)
     message = 'Some message to be encrypted'
     additional_data = 'Some additional data'  # this will not be encrypted but will be verified for integrity
 

@@ -151,6 +151,7 @@ class TestChaCha20Encryption(unittest.TestCase):
         keystream = cipher.encrypt(key, nonce, data, counter=42)
         self.assertEqual(keystream, expected)
 
+
 class TestPoly1305(unittest.TestCase):
     # https://tools.ietf.org/html/rfc7539#appendix-A.3
     def test_poly1305_tag1(self):
@@ -203,6 +204,7 @@ class TestPoly1305(unittest.TestCase):
         tag = mac.tag(key, inp)
         self.assertEqual(tag, expected)
 
+
 class TestPoly1305Keygen(unittest.TestCase):
     # test from https://tools.ietf.org/html/rfc7539#appendix-A.4
     def test_poly1305_keygen1(self):
@@ -240,6 +242,7 @@ class TestPoly1305Keygen(unittest.TestCase):
 
         tag_key = cipher.encrypt(key, nonce, chr(0x00) * 64)[:32]
         self.assertEqual(tag_key, expected)
+
 
 class TestAEAD(unittest.TestCase):
     # test from https://tools.ietf.org/html/rfc7539#appendix-A.5
@@ -292,6 +295,7 @@ class TestAEAD(unittest.TestCase):
 
         plaintext = aead.verify_and_decrypt(key, nonce, ciphertext, tag, aad)
         self.assertEqual(plaintext, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
