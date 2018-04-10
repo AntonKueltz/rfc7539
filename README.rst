@@ -28,7 +28,7 @@ by itself:
 
 .. code:: python
 
-    from chacha20poly1305 import aead
+    from rfc7539 import aead
     from os import urandom
 
     key = urandom(32)  # key is 32 bytes
