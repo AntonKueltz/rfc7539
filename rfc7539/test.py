@@ -1,7 +1,7 @@
 from binascii import hexlify, unhexlify
 import unittest
 
-from chacha20poly1305 import aead, cipher, mac
+from rfc7539 import aead, cipher, mac
 
 
 class TestChaCha20Keystream(unittest.TestCase):

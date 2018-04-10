@@ -13,34 +13,34 @@ class TestCommand(Command):
 
     def run(self):
         from subprocess import call
-        call(['python', '-m', 'chacha20poly1305.test'])
+        call(['python', '-m', 'rfc7539.test'])
 
 
 _chacha20 = Extension(
-    'chacha20poly1305._chacha20',
+    'rfc7539._chacha20',
     include_dirs=['src/'],
     sources=['src/_chacha20.c'],
     extra_compile_args=['-std=c99', '-O2']
 )
 
 _poly1305 = Extension(
-    'chacha20poly1305._poly1305',
+    'rfc7539._poly1305',
     include_dirs=['src/'],
     sources=['src/_poly1305.c'],
     extra_compile_args=['-std=c99', '-O2']
 )
 
 setup(
-    name='chacha20poly1305',
+    name='rfc7539',
     version='1.0.1',
     author='Anton Kueltz',
     author_email='kueltz.anton@gmail.com',
     license='GNU General Public License v3 (GPLv3)',
-    keywords='poly1305 chacha20 chacha20poly1305',
+    keywords='rfc7539 poly1305 chacha20 chacha20poly1305',
     description='An AEAD construction per RFC7539',
     long_description=''.join(open('README.rst', 'r').readlines()),
-    # url='https://github.com/AntonKueltz/',
-    packages=['chacha20poly1305'],
+    url='https://github.com/AntonKueltz/rfc7539',
+    packages=['rfc7539'],
     ext_modules=[_chacha20, _poly1305],
     cmdclass={'test': TestCommand},
     classifiers=[

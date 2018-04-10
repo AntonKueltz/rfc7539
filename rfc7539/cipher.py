@@ -1,4 +1,4 @@
-from chacha20poly1305 import _chacha20
+from rfc7539 import _chacha20
 
 
 def encrypt(key, nonce, data, counter=0):

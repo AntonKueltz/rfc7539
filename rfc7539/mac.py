@@ -1,4 +1,4 @@
-from chacha20poly1305 import _poly1305
+from rfc7539 import _poly1305
 
 
 def tag(key, msg):
