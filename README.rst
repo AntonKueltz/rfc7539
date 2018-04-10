@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/AntonKueltz/ChaCha20Poly1305.svg?branch=master
-    :target: https://travis-ci.org/AntonKueltz/ChaCha20Poly1305
+.. image:: https://travis-ci.org/AntonKueltz/rfc7539.svg?branch=master
+    :target: https://travis-ci.org/AntonKueltz/rfc7539
 
 =======
 RFC7539
