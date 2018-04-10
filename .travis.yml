@@ -9,4 +9,4 @@ before_script:
   - pycodestyle --max-line-length=200 --ignore=E402 */*.py
   - pip install -e .
 script:
-  - python -m chacha20poly1305.test
+  - python -m rfc7539.test
