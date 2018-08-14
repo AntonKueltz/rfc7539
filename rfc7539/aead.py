@@ -42,7 +42,7 @@ def verify_and_decrypt(key, nonce, ciphertext, mac, aad):
     tag_input = _tag_data(aad, ciphertext)
 
     if not compare_digest(tag(tag_key, tag_input), mac):
-        print 'Got a bad tag, aborting decryption process'
+        print('Got a bad tag, aborting decryption process')
         return None
 
     return encrypt(key, nonce, ciphertext, counter=1)
