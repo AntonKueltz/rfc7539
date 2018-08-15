@@ -1,9 +1,12 @@
-_chacha20
+
 .old
 *.o
 *.so
-src/test*
+*.pyc
+
+__pycache__
 *.egg-info
 build
-*.pyc
+dist
+
 Makefile

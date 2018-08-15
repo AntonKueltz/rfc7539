@@ -1,34 +1,43 @@
 from hmac import compare_digest  # constant time comparison
+from logging import getLogger
+from struct import pack
 
-from cipher import encrypt
-from mac import tag
+from .cipher import encrypt
+from .mac import tag
+from .util import force_bytes
+
+
+class BadTagException(Exception):
+    def __init__(self, message):
+        super(BadTagException, self).__init__(message)
 
 
 def _len_bytes(n):
     # truncate to 32 bits
     n &= 0xffffffff
-    slen = ''
+    slen = b''
 
     while n:
-        slen = slen + chr(n & 0xff)
+        slen = slen + pack('B', n & 0xff)
         n >>= 8
 
     if len(slen) != 8:
-        slen = slen + (8 - len(slen)) * chr(0x00)
+        slen = slen + (8 - len(slen)) * b'\x00'
 
     return slen
 
 
 def _tag_data(aad, ciphertext):
-    tag_data = aad + chr(0x00) * (16 - (len(aad) % 16))
-    tag_data += ciphertext + chr(0x00) * (16 - (len(ciphertext) % 16))
+    tag_data = aad + b'\x00' * (16 - (len(aad) % 16))
+    tag_data += ciphertext + b'\x00' * (16 - (len(ciphertext) % 16))
     tag_data += _len_bytes(len(aad))
     tag_data += _len_bytes(len(ciphertext))
     return tag_data
 
 
 def encrypt_and_tag(key, nonce, plaintext, aad):
-    tag_key = encrypt(key, nonce, chr(0x00) * 64)
+    aad = force_bytes(aad)
+    tag_key = encrypt(key, nonce, b'\x00' * 64)
     tag_key = tag_key[:32]
     ciphertext = encrypt(key, nonce, plaintext, counter=1)
     tag_input = _tag_data(aad, ciphertext)
@@ -37,12 +46,12 @@ def encrypt_and_tag(key, nonce, plaintext, aad):
 
 
 def verify_and_decrypt(key, nonce, ciphertext, mac, aad):
-    tag_key = encrypt(key, nonce, chr(0x00) * 64)
+    aad = force_bytes(aad)
+    tag_key = encrypt(key, nonce, b'\x00' * 64)
     tag_key = tag_key[:32]
     tag_input = _tag_data(aad, ciphertext)
 
     if not compare_digest(tag(tag_key, tag_input), mac):
-        print 'Got a bad tag, aborting decryption process'
-        return None
+        raise BadTagException('Got a bad tag, aborting decryption process')
 
     return encrypt(key, nonce, ciphertext, counter=1)

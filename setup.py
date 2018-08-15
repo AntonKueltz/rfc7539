@@ -32,7 +32,7 @@ _poly1305 = Extension(
 
 setup(
     name='rfc7539',
-    version='1.0.0',
+    version='1.1.0',
     author='Anton Kueltz',
     author_email='kueltz.anton@gmail.com',
     license='GNU General Public License v3 (GPLv3)',
@@ -44,11 +44,16 @@ setup(
     ext_modules=[_chacha20, _poly1305],
     cmdclass={'test': TestCommand},
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Security :: Cryptography',
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: MacOS :: MacOS X',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Programming Language :: Python :: 2',
-        # 'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )

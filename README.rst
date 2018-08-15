@@ -42,4 +42,14 @@ by itself:
     # decryption (which yields plaintext == message)
     plaintext = aead.verify_and_decrypt(key, nonce, ciphertext, mac, additional_data)
 
+Notes on Python 2 vs 3
+----------------------
+
+In python2 encryption and decryption and tagging will return :code:`str` data while in python3 they will return
+:code:`bytes` data. This is consistent with how much of the python library operates between the two versions (e.g.
+see :code:`binascii.unhexlify`). This can lead to some strange behavior if e.g. you encrypt a :code:`str` value in
+python3 and, after decrypting, your decrypted value does not match your original value because you got :code:`bytes`
+back from the decryption. If the returned type is undesirable it is of course always possible to convert between
+:code:`bytes` and :code:`str` as needed.
+
 .. _RFC7539: https://tools.ietf.org/html/rfc7539

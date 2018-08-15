@@ -7,9 +7,9 @@ from rfc7539 import aead, cipher, mac
 class TestChaCha20Keystream(unittest.TestCase):
     # test from https://tools.ietf.org/html/rfc7539#appendix-A.1
     def test_chacha20_keystream1(self):
-        key = chr(0x00) * 32
-        nonce = chr(0x00) * 12
-        data = chr(0x00) * 64
+        key = b'\x00' * 32
+        nonce = b'\x00' * 12
+        data = b'\x00' * 64
         expected = unhexlify(
             '76b8e0ada0f13d90405d6ae55386bd28bdd219b8a08ded1aa836efcc'
             '8b770dc7da41597c5157488d7724e03fb8d84a376a43b8f41518a11c'
@@ -20,9 +20,9 @@ class TestChaCha20Keystream(unittest.TestCase):
         self.assertEqual(keystream, expected)
 
     def test_chacha20_keystream2(self):
-        key = chr(0x00) * 32
-        nonce = chr(0x00) * 12
-        data = chr(0x00) * 64
+        key = b'\x00' * 32
+        nonce = b'\x00' * 12
+        data = b'\x00' * 64
         expected = unhexlify(
             '9f07e7be5551387a98ba977c732d080d'
             'cb0f29a048e3656912c6533e32ee7aed'
@@ -34,9 +34,9 @@ class TestChaCha20Keystream(unittest.TestCase):
         self.assertEqual(keystream, expected)
 
     def test_chacha20_keystream3(self):
-        key = chr(0x00) * 31 + chr(0x01)
-        nonce = chr(0x00) * 12
-        data = chr(0x00) * 64
+        key = b'\x00' * 31 + b'\x01'
+        nonce = b'\x00' * 12
+        data = b'\x00' * 64
         expected = unhexlify(
             '3aeb5224ecf849929b9d828db1ced4dd'
             '832025e8018b8160b82284f3c949aa5a'
@@ -48,9 +48,9 @@ class TestChaCha20Keystream(unittest.TestCase):
         self.assertEqual(keystream, expected)
 
     def test_chacha20_keystream4(self):
-        key = chr(0x00) + chr(0xff) + chr(0x00) * 30
-        nonce = chr(0x00) * 12
-        data = chr(0x00) * 64
+        key = b'\x00' + b'\xff' + b'\x00' * 30
+        nonce = b'\x00' * 12
+        data = b'\x00' * 64
         expected = unhexlify(
             '72d54dfbf12ec44b362692df94137f32'
             '8fea8da73990265ec1bbbea1ae9af0ca'
@@ -62,9 +62,9 @@ class TestChaCha20Keystream(unittest.TestCase):
         self.assertEqual(keystream, expected)
 
     def test_chacha20_keystream5(self):
-        key = chr(0x00) * 32
-        nonce = chr(0x00) * 11 + chr(0x02)
-        data = chr(0x00) * 64
+        key = b'\x00' * 32
+        nonce = b'\x00' * 11 + b'\x02'
+        data = b'\x00' * 64
         expected = unhexlify(
             'c2c64d378cd536374ae204b9ef933fcd'
             '1a8b2288b3dfa49672ab765b54ee27c7'
@@ -79,9 +79,9 @@ class TestChaCha20Keystream(unittest.TestCase):
 class TestChaCha20Encryption(unittest.TestCase):
     # test from https://tools.ietf.org/html/rfc7539#appendix-A.2
     def test_chacha20_encryption1(self):
-        key = chr(0x00) * 32
-        nonce = chr(0x00) * 12
-        data = chr(0x00) * 64
+        key = b'\x00' * 32
+        nonce = b'\x00' * 12
+        data = b'\x00' * 64
         expected = unhexlify(
             '76b8e0ada0f13d90405d6ae55386bd28bdd219b8a08ded1aa836efcc'
             '8b770dc7da41597c5157488d7724e03fb8d84a376a43b8f41518a11c'
@@ -92,8 +92,8 @@ class TestChaCha20Encryption(unittest.TestCase):
         self.assertEqual(keystream, expected)
 
     def test_chacha20_keystream2(self):
-        key = chr(0x00) * 31 + chr(0x01)
-        nonce = chr(0x00) * 11 + chr(0x02)
+        key = b'\x00' * 31 + b'\x01'
+        nonce = b'\x00' * 11 + b'\x02'
         data = 'Any submission to the IETF intended by the Contributor for publication as all ' \
                'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
                'context of an IETF activity is considered an "IETF Contribution". Such ' \
@@ -134,7 +134,7 @@ class TestChaCha20Encryption(unittest.TestCase):
             '1c9240a5eb55d38af333888604f6b5f0'
             '473917c1402b80099dca5cbc207075c0'
         )
-        nonce = chr(0x00) * 11 + chr(0x02)
+        nonce = b'\x00' * 11 + b'\x02'
         data = '\'Twas brillig, and the slithy toves\x0aDid gyre and gimble in the wabe:\x0a' \
                'All mimsy were the borogoves,\x0aAnd the mome raths outgrabe.'
         expected = unhexlify(
@@ -155,9 +155,9 @@ class TestChaCha20Encryption(unittest.TestCase):
 class TestPoly1305(unittest.TestCase):
     # https://tools.ietf.org/html/rfc7539#appendix-A.3
     def test_poly1305_tag1(self):
-        inp = chr(0x00) * 64
-        key = chr(0x00) * 32
-        expected = chr(0x00) * 16
+        inp = b'\x00' * 64
+        key = b'\x00' * 32
+        expected = b'\x00' * 16
 
         tag = mac.tag(key, inp)
         self.assertEqual(tag, expected)
@@ -208,25 +208,25 @@ class TestPoly1305(unittest.TestCase):
 class TestPoly1305Keygen(unittest.TestCase):
     # test from https://tools.ietf.org/html/rfc7539#appendix-A.4
     def test_poly1305_keygen1(self):
-        key = chr(0x00) * 32
-        nonce = chr(0x00) * 12
+        key = b'\x00' * 32
+        nonce = b'\x00' * 12
         expected = unhexlify(
             '76b8e0ada0f13d90405d6ae55386bd28'
             'bdd219b8a08ded1aa836efcc8b770dc7'
         )
 
-        tag_key = cipher.encrypt(key, nonce, chr(0x00) * 64)[:32]
+        tag_key = cipher.encrypt(key, nonce, b'\x00' * 64)[:32]
         self.assertEqual(tag_key, expected)
 
     def test_poly1305_keygen2(self):
-        key = chr(0x00) * 31 + chr(0x01)
-        nonce = chr(0x00) * 11 + chr(0x02)
+        key = b'\x00' * 31 + b'\x01'
+        nonce = b'\x00' * 11 + b'\x02'
         expected = unhexlify(
             'ecfa254f845f647473d3cb140da9e876'
             '06cb33066c447b87bc2666dde3fbb739'
         )
 
-        tag_key = cipher.encrypt(key, nonce, chr(0x00) * 64)[:32]
+        tag_key = cipher.encrypt(key, nonce, b'\x00' * 64)[:32]
         self.assertEqual(tag_key, expected)
 
     def test_poly1305_keygen3(self):
@@ -234,13 +234,13 @@ class TestPoly1305Keygen(unittest.TestCase):
             '1c9240a5eb55d38af333888604f6b5f0'
             '473917c1402b80099dca5cbc207075c0'
         )
-        nonce = chr(0x00) * 11 + chr(0x02)
+        nonce = b'\x00' * 11 + b'\x02'
         expected = unhexlify(
             '965e3bc6f9ec7ed9560808f4d229f94b'
             '137ff275ca9b3fcbdd59deaad23310ae'
         )
 
-        tag_key = cipher.encrypt(key, nonce, chr(0x00) * 64)[:32]
+        tag_key = cipher.encrypt(key, nonce, b'\x00' * 64)[:32]
         self.assertEqual(tag_key, expected)
 
 
