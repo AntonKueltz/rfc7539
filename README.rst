@@ -1,9 +1,14 @@
-.. image:: https://travis-ci.org/AntonKueltz/rfc7539.svg?branch=master
-    :target: https://travis-ci.org/AntonKueltz/rfc7539
-
 =======
 RFC7539
 =======
+.. image:: https://img.shields.io/pypi/v/rfc7539.svg
+    :target: https://pypi.org/project/rfc7539/
+    :alt: PyPI
+
+.. image:: https://travis-ci.org/AntonKueltz/rfc7539.svg
+    :target: https://travis-ci.org/AntonKueltz/rfc7539
+    :alt: Travis
+
 About
 -----
 
