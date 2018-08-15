@@ -18,7 +18,21 @@ specified in the RFC.
 Installation
 ------------
 
-Clone the repo and run either :code:`$ pip install -e .` or :code:`$ python setup.py install`.
+Method 1
+~~~~~~~~
+
+.. code:: bash
+
+    pip install rfc7539
+
+Method 2
+~~~~~~~~
+
+.. code:: bash
+
+    git clone https://github.com/AntonKueltz/rfc7539.git
+    cd rfc7539
+    python setup.py install
 
 Usage
 -----
