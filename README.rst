@@ -5,7 +5,7 @@ RFC7539
     :target: https://pypi.org/project/rfc7539/
     :alt: PyPI
 
-.. image:: https://travis-ci.org/AntonKueltz/rfc7539.svg
+.. image:: https://travis-ci.org/AntonKueltz/rfc7539.svg?branch=master
     :target: https://travis-ci.org/AntonKueltz/rfc7539
     :alt: Travis
 
