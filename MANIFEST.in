@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+include src/_chacha20.h
+include src/_poly1305.h
