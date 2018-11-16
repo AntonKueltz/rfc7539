@@ -27,9 +27,16 @@ def _len_bytes(n):
     return slen
 
 
+def _pad16(x):
+    if len(x) % 16 == 0:
+        return b''
+    else:
+        return b'\x00' * (16 - (len(x) % 16))
+
+
 def _tag_data(aad, ciphertext):
-    tag_data = aad + b'\x00' * (16 - (len(aad) % 16))
-    tag_data += ciphertext + b'\x00' * (16 - (len(ciphertext) % 16))
+    tag_data = aad + _pad16(aad)
+    tag_data += ciphertext + _pad16(ciphertext)
     tag_data += _len_bytes(len(aad))
     tag_data += _len_bytes(len(ciphertext))
     return tag_data

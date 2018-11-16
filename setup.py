@@ -32,7 +32,7 @@ _poly1305 = Extension(
 
 setup(
     name='rfc7539',
-    version='1.1.0',
+    version='1.2.1',
     author='Anton Kueltz',
     author_email='kueltz.anton@gmail.com',
     license='GNU General Public License v3 (GPLv3)',
