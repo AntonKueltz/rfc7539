@@ -94,11 +94,11 @@ class TestChaCha20Encryption(unittest.TestCase):
     def test_chacha20_keystream2(self):
         key = b'\x00' * 31 + b'\x01'
         nonce = b'\x00' * 11 + b'\x02'
-        data = 'Any submission to the IETF intended by the Contributor for publication as all ' \
-               'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
-               'context of an IETF activity is considered an "IETF Contribution". Such ' \
-               'statements include oral statements in IETF sessions, as well as written and ' \
-               'electronic communications made at any time or place, which are addressed to'
+        data = b'Any submission to the IETF intended by the Contributor for publication as all ' \
+               b'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
+               b'context of an IETF activity is considered an "IETF Contribution". Such ' \
+               b'statements include oral statements in IETF sessions, as well as written and ' \
+               b'electronic communications made at any time or place, which are addressed to'
         expected = unhexlify(
             'a3fbf07df3fa2fde4f376ca23e827370'
             '41605d9f4f4f57bd8cff2c1d4b7955ec'
@@ -135,8 +135,8 @@ class TestChaCha20Encryption(unittest.TestCase):
             '473917c1402b80099dca5cbc207075c0'
         )
         nonce = b'\x00' * 11 + b'\x02'
-        data = '\'Twas brillig, and the slithy toves\x0aDid gyre and gimble in the wabe:\x0a' \
-               'All mimsy were the borogoves,\x0aAnd the mome raths outgrabe.'
+        data = b'\'Twas brillig, and the slithy toves\x0aDid gyre and gimble in the wabe:\x0a' \
+               b'All mimsy were the borogoves,\x0aAnd the mome raths outgrabe.'
         expected = unhexlify(
             '62e6347f95ed87a45ffae7426f27a1df'
             '5fb69110044c0d73118effa95b01e5cf'
@@ -163,11 +163,11 @@ class TestPoly1305(unittest.TestCase):
         self.assertEqual(tag, expected)
 
     def test_poly1305_tag2(self):
-        inp = 'Any submission to the IETF intended by the Contributor for publication as all ' \
-              'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
-              'context of an IETF activity is considered an "IETF Contribution". Such ' \
-              'statements include oral statements in IETF sessions, as well as written and ' \
-              'electronic communications made at any time or place, which are addressed to'
+        inp = b'Any submission to the IETF intended by the Contributor for publication as all ' \
+              b'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
+              b'context of an IETF activity is considered an "IETF Contribution". Such ' \
+              b'statements include oral statements in IETF sessions, as well as written and ' \
+              b'electronic communications made at any time or place, which are addressed to'
         key = unhexlify(
             '00000000000000000000000000000000'
             '36e5f6b5c5e06070f0efca96227a863e'
@@ -178,11 +178,11 @@ class TestPoly1305(unittest.TestCase):
         self.assertEqual(tag, expected)
 
     def test_poly1305_tag3(self):
-        inp = 'Any submission to the IETF intended by the Contributor for publication as all ' \
-              'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
-              'context of an IETF activity is considered an "IETF Contribution". Such ' \
-              'statements include oral statements in IETF sessions, as well as written and ' \
-              'electronic communications made at any time or place, which are addressed to'
+        inp = b'Any submission to the IETF intended by the Contributor for publication as all ' \
+              b'or part of an IETF Internet-Draft or RFC and any statement made within the ' \
+              b'context of an IETF activity is considered an "IETF Contribution". Such ' \
+              b'statements include oral statements in IETF sessions, as well as written and ' \
+              b'electronic communications made at any time or place, which are addressed to'
         key = unhexlify(
             '36e5f6b5c5e06070f0efca96227a863e'
             '00000000000000000000000000000000'
@@ -193,8 +193,8 @@ class TestPoly1305(unittest.TestCase):
         self.assertEqual(tag, expected)
 
     def test_poly1305_tag4(self):
-        inp = '\'Twas brillig, and the slithy toves\x0aDid gyre and gimble in the wabe:\x0a' \
-              'All mimsy were the borogoves,\x0aAnd the mome raths outgrabe.'
+        inp = b'\'Twas brillig, and the slithy toves\x0aDid gyre and gimble in the wabe:\x0a' \
+              b'All mimsy were the borogoves,\x0aAnd the mome raths outgrabe.'
         key = unhexlify(
             '1c9240a5eb55d38af333888604f6b5f0'
             '473917c1402b80099dca5cbc207075c0'
