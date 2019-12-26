@@ -40,18 +40,21 @@ def _tag_data(aad: bytes, ciphertext: bytes) -> bytes:
     return tag_data
 
 
-def encrypt_and_tag(key: bytes, nonce: bytes, plaintext: bytes, aad: bytes) -> bytes:
+def _tag_key(key: bytes, nonce: bytes) -> bytes:
     tag_key = encrypt(key, nonce, b'\x00' * 64)
-    tag_key = tag_key[:32]
+    return tag_key[:32]
+
+
+def encrypt_and_tag(key: bytes, nonce: bytes, plaintext: bytes, aad: bytes) -> (bytes, bytes):
+    tag_key = _tag_key(key, nonce)
     ciphertext = encrypt(key, nonce, plaintext, counter=1)
     tag_input = _tag_data(aad, ciphertext)
     mac = tag(tag_key, tag_input)
-    return (ciphertext, mac)
+    return ciphertext, mac
 
 
 def verify_and_decrypt(key: bytes, nonce: bytes, ciphertext: bytes, mac: bytes, aad: bytes) -> bytes:
-    tag_key = encrypt(key, nonce, b'\x00' * 64)
-    tag_key = tag_key[:32]
+    tag_key = _tag_key(key, nonce)
     tag_input = _tag_data(aad, ciphertext)
 
     if not compare_digest(tag(tag_key, tag_input), mac):
