@@ -42,8 +42,9 @@ Method 2
 Basic API
 ---------
 
-Encryption
-~~~~~~~~~~
+:code:`aead.encrypt_and_tag`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Takes a key, nonce, plaintext and additional data and returns a ciphertext and MAC.
 
 .. code:: python
 
@@ -52,11 +53,12 @@ Encryption
         nonce: bytes,
         plaintext: bytes,
         aad: bytes
-    ) -> bytes
+    ) -> (bytes, bytes)
 
 
-Decryption
-~~~~~~~~~~
+:code:`aead.verify_and_decrypt`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Takes a key, nonce, ciphertext, MAC and additional data and returns a plaintext.
 
 .. code:: python
 
