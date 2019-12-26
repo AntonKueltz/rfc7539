@@ -130,11 +130,7 @@ static PyObject * _chacha20_cipher(PyObject *self, PyObject *args) {
     ChaCha20XOR(out, (unsigned char *)in, msgLen, (unsigned char *)key, (unsigned char *)nonce,
         counter);
 
-#if PY_MAJOR_VERSION >= 3
     return Py_BuildValue("y#", out, msgLen);
-#else
-    return Py_BuildValue("s#", out, msgLen);
-#endif
 }
 
 static PyMethodDef _chacha20__methods__[] = {
@@ -142,8 +138,6 @@ static PyMethodDef _chacha20__methods__[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
-
-#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
     "_chacha20",
@@ -160,10 +154,3 @@ PyMODINIT_FUNC PyInit__chacha20(void) {
     PyObject * m = PyModule_Create(&moduledef);
     return m;
 }
-
-
-#else
-PyMODINIT_FUNC init_chacha20(void) {
-    Py_InitModule("_chacha20", _chacha20__methods__);
-}
-#endif

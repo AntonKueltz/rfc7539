@@ -278,11 +278,7 @@ static PyObject * _poly1305_tag(PyObject *self, PyObject *args) {
     Poly1305Update(&state, (unsigned char *)msg, msgLen);
     Poly1305Finish(&state, mac);
 
-#if PY_MAJOR_VERSION >= 3
     return Py_BuildValue("y#", mac, macSize);
-#else
-    return Py_BuildValue("s#", mac, macSize);
-#endif
 }
 
 static PyMethodDef _poly1305__methods__[] = {
@@ -290,8 +286,6 @@ static PyMethodDef _poly1305__methods__[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
-
-#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
     "_poly1305",
@@ -308,10 +302,3 @@ PyMODINIT_FUNC PyInit__poly1305(void) {
     PyObject * m = PyModule_Create(&moduledef);
     return m;
 }
-
-
-#else
-PyMODINIT_FUNC init_poly1305(void) {
-    Py_InitModule("_poly1305", _poly1305__methods__);
-}
-#endif
