@@ -1,10 +1,8 @@
 from hmac import compare_digest  # constant time comparison
-from logging import getLogger
 from struct import pack
 
 from .cipher import encrypt
 from .mac import tag
-from .util import force_bytes
 
 
 class BadTagException(Exception):
@@ -12,7 +10,7 @@ class BadTagException(Exception):
         super(BadTagException, self).__init__(message)
 
 
-def _len_bytes(n):
+def _len_bytes(n: int) -> int:
     # truncate to 32 bits
     n &= 0xffffffff
     slen = b''
@@ -27,14 +25,14 @@ def _len_bytes(n):
     return slen
 
 
-def _pad16(x):
+def _pad16(x: bytes) -> bytes:
     if len(x) % 16 == 0:
         return b''
     else:
         return b'\x00' * (16 - (len(x) % 16))
 
 
-def _tag_data(aad, ciphertext):
+def _tag_data(aad: bytes, ciphertext: bytes) -> bytes:
     tag_data = aad + _pad16(aad)
     tag_data += ciphertext + _pad16(ciphertext)
     tag_data += _len_bytes(len(aad))
@@ -42,8 +40,7 @@ def _tag_data(aad, ciphertext):
     return tag_data
 
 
-def encrypt_and_tag(key, nonce, plaintext, aad):
-    aad = force_bytes(aad)
+def encrypt_and_tag(key: bytes, nonce: bytes, plaintext: bytes, aad: bytes) -> bytes:
     tag_key = encrypt(key, nonce, b'\x00' * 64)
     tag_key = tag_key[:32]
     ciphertext = encrypt(key, nonce, plaintext, counter=1)
@@ -52,8 +49,7 @@ def encrypt_and_tag(key, nonce, plaintext, aad):
     return (ciphertext, mac)
 
 
-def verify_and_decrypt(key, nonce, ciphertext, mac, aad):
-    aad = force_bytes(aad)
+def verify_and_decrypt(key: bytes, nonce: bytes, ciphertext: bytes, mac: bytes, aad: bytes) -> bytes:
     tag_key = encrypt(key, nonce, b'\x00' * 64)
     tag_key = tag_key[:32]
     tag_input = _tag_data(aad, ciphertext)
