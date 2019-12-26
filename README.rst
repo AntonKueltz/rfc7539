@@ -38,9 +38,38 @@ Method 2
     git clone https://github.com/AntonKueltz/rfc7539.git
     cd rfc7539
     python setup.py install
+    
+Basic API
+---------
 
-Usage
------
+Encryption
+~~~~~~~~~~
+
+.. code:: python
+
+    def encrypt_and_tag(
+        key: bytes,
+        nonce: bytes,
+        plaintext: bytes,
+        aad: bytes
+    ) -> bytes
+
+
+Decryption
+~~~~~~~~~~
+
+.. code:: python
+
+    def verify_and_decrypt(
+        key: bytes,
+        nonce: bytes,
+        ciphertext: bytes,
+        mac: bytes, 
+        aad: bytes
+    ) -> bytes
+
+Example Usage
+-------------
 
 You should use the authenticated encryption mode unless you really need to use one of the primitives
 by itself:
