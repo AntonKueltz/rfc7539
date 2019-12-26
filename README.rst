@@ -51,9 +51,9 @@ by itself:
     from os import urandom
 
     key = urandom(32)  # key is 32 bytes
-    nonce = 'thisisanonce'  # nonce is 12 bytes (DO NOT REUSE A NONCE WITH THE SAME KEY)
-    message = 'Some message to be encrypted'
-    additional_data = 'Some additional data'  # this will not be encrypted but will be verified for integrity
+    nonce = b'thisisanonce'  # nonce is 12 bytes (DO NOT REUSE A NONCE WITH THE SAME KEY)
+    message = b'Some message to be encrypted'
+    additional_data = b'Some additional data'  # this will not be encrypted but will be verified for integrity
 
     # encryption
     ciphertext, mac = aead.encrypt_and_tag(key, nonce, message, additional_data)
@@ -61,14 +61,8 @@ by itself:
     # decryption (which yields plaintext == message)
     plaintext = aead.verify_and_decrypt(key, nonce, ciphertext, mac, additional_data)
 
-Notes on Python 2 vs 3
-----------------------
 
-In python2 encryption and decryption and tagging will return :code:`str` data while in python3 they will return
-:code:`bytes` data. This is consistent with how much of the python library operates between the two versions (e.g.
-see :code:`binascii.unhexlify`). This can lead to some strange behavior if e.g. you encrypt a :code:`str` value in
-python3 and, after decrypting, your decrypted value does not match your original value because you got :code:`bytes`
-back from the decryption. If the returned type is undesirable it is of course always possible to convert between
-:code:`bytes` and :code:`str` as needed.
+Note that all operations in this package work on bytes. You'll need to call e.g. :code:`encode()` on strings
+before passing them as arguments.
 
 .. _RFC7539: https://tools.ietf.org/html/rfc7539
