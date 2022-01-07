@@ -6,7 +6,7 @@
 
 #include <string.h>
 #include <stdio.h>
-
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 // #include "prtypes.h"
@@ -130,7 +130,7 @@ static PyObject * _chacha20_cipher(PyObject *self, PyObject *args) {
     ChaCha20XOR(out, (unsigned char *)in, msgLen, (unsigned char *)key, (unsigned char *)nonce,
         counter);
 
-    return Py_BuildValue("y#", out, msgLen);
+    return Py_BuildValue("y#", out, Py_SAFE_DOWNCAST(msgLen, Py_ssize_t, size_t));
 }
 
 static PyMethodDef _chacha20__methods__[] = {
