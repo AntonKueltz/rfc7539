@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0] - 2022-02-17
+
+### Added
+* Support for python3.9 and python3.10
+
+### Removed
+* Support for python3.5 and python3.7
+
 ## [2.0.1] - 2019-12-25
 
 ### Fixed
